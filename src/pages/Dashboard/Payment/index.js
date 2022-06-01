@@ -1,9 +1,12 @@
 import { Box } from '@material-ui/core';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '../../../components/Dashboard/Button';
 import SubmitButton from '../../../components/Dashboard/SubmitButton';
 import PageTitle from '../../../components/Dashboard/PageTitle';
 import SubtitleInfo from '../../../components/Dashboard/SubtitleInfo';
+import useEnrollment from '../../../hooks/api/useEnrollment';
+import UnauthorizedMessage from '../../../components/Dashboard/UnauthorizedMessage';
+import UnauthorizedMessageContainer from '../../../components/Dashboard/UnauthorizedMessageContainer';
 
 export default function Payment() {
   const [formData, setFormData] = useState({
@@ -15,6 +18,7 @@ export default function Payment() {
   const [showReserveTicketButton, setShowReserveTicketButton] = useState(false);
   const [showReserveAccommodationButton, setShowReserveAccommodationButton] = useState(false);
   const [showAccomodationChoices, setShowAccomodationChoices] = useState(false);
+  const { enrollment } = useEnrollment();
 
   function handleTicketType(e) {
     const buttonContent = e.target.innerHTML;
@@ -40,6 +44,7 @@ export default function Payment() {
       }
     }
   }
+
   function handleAccommodationType(e) {
     const buttonContent = e.target.innerHTML;
     if (buttonContent.includes('Sem')) {
@@ -71,6 +76,18 @@ export default function Payment() {
     setShowAccomodationChoices(true);
     setShowReserveTicketButton(false);
   }
+
+  if(!enrollment) {
+    return(
+      <>
+        <PageTitle>Ingresso e pagamento</PageTitle>
+        <UnauthorizedMessageContainer>
+          <UnauthorizedMessage> Você precisa completar sua inscrição <br />antes de prosseguir pra escolha de ingresso</UnauthorizedMessage>
+        </UnauthorizedMessageContainer>
+      </>
+    );
+  };
+
   return (
     <>
       <PageTitle>Ingresso e pagamento</PageTitle>
