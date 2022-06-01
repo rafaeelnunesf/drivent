@@ -1,5 +1,5 @@
 import { Box } from '@material-ui/core';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Button from '../../../components/Dashboard/Button';
 import SubmitButton from '../../../components/Dashboard/SubmitButton';
 import PageTitle from '../../../components/Dashboard/PageTitle';
@@ -26,21 +26,27 @@ export default function Payment() {
       setTicketValue(parseInt(buttonContent.replace('Presencial<br>R$ ', '')));
       if (formData.ticketType === '' || formData.ticketType === 'Online') {
         setFormData({ ...formData, ticketType: 'Presencial' });
-        setShowReserveTicketButton(true);
-      } else {
-        setFormData({ ...formData, ticketType: '' });
+        setShowAccomodationChoices(true);
         setShowReserveTicketButton(false);
+      } else {
+        setFormData({ accommodationType: '', ticketType: '' });
+        setShowReserveTicketButton(false);
+        setShowAccomodationChoices(false);
+        setShowReserveAccommodationButton(false);
       }
     }
     if (buttonContent.includes('Online')) {
       setTicketValue(parseInt(buttonContent.replace('Online<br>R$ ', '')));
       if (formData.ticketType === '' || formData.ticketType === 'Presencial') {
-        setFormData({ ...formData, ticketType: 'Online' });
+        setFormData({ accommodationType: '', ticketType: 'Online' });
         setShowReserveTicketButton(true);
+        setShowAccomodationChoices(false);
+        setShowReserveAccommodationButton(false);
       }
       if (formData.ticketType === 'Online') {
         setFormData({ ...formData, ticketType: '' });
         setShowReserveTicketButton(false);
+        setShowAccomodationChoices(false);
       }
     }
   }
@@ -94,7 +100,6 @@ export default function Payment() {
       <Box sx={{ marginTop: '37px' }}>
         <SubtitleInfo>Primeiro, escolha sua modalidade de ingresso</SubtitleInfo>
         <Button
-          disabled={showAccomodationChoices}
           selected={formData.ticketType === 'Presencial'}
           onClick={handleTicketType}
         >
@@ -103,7 +108,6 @@ export default function Payment() {
           R$ 250
         </Button>
         <Button
-          disabled={showAccomodationChoices}
           selected={formData.ticketType === 'Online'}
           onClick={handleTicketType}
         >
