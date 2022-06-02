@@ -4,6 +4,9 @@ import Button from '../../../components/Dashboard/Button';
 import SubmitButton from '../../../components/Dashboard/SubmitButton';
 import PageTitle from '../../../components/Dashboard/PageTitle';
 import SubtitleInfo from '../../../components/Dashboard/SubtitleInfo';
+import useEnrollment from '../../../hooks/api/useEnrollment';
+import UnauthorizedMessage from '../../../components/Dashboard/UnauthorizedMessage';
+import UnauthorizedMessageContainer from '../../../components/Dashboard/UnauthorizedMessageContainer';
 
 export default function Payment() {
   const [formData, setFormData] = useState({
@@ -15,6 +18,7 @@ export default function Payment() {
   const [showReserveTicketButton, setShowReserveTicketButton] = useState(false);
   const [showReserveAccommodationButton, setShowReserveAccommodationButton] = useState(false);
   const [showAccomodationChoices, setShowAccomodationChoices] = useState(false);
+  const { enrollment } = useEnrollment();
 
   function handleTicketType(e) {
     const buttonContent = e.target.innerHTML;
@@ -22,24 +26,31 @@ export default function Payment() {
       setTicketValue(parseInt(buttonContent.replace('Presencial<br>R$ ', '')));
       if (formData.ticketType === '' || formData.ticketType === 'Online') {
         setFormData({ ...formData, ticketType: 'Presencial' });
-        setShowReserveTicketButton(true);
-      } else {
-        setFormData({ ...formData, ticketType: '' });
+        setShowAccomodationChoices(true);
         setShowReserveTicketButton(false);
+      } else {
+        setFormData({ accommodationType: '', ticketType: '' });
+        setShowReserveTicketButton(false);
+        setShowAccomodationChoices(false);
+        setShowReserveAccommodationButton(false);
       }
     }
     if (buttonContent.includes('Online')) {
       setTicketValue(parseInt(buttonContent.replace('Online<br>R$ ', '')));
       if (formData.ticketType === '' || formData.ticketType === 'Presencial') {
-        setFormData({ ...formData, ticketType: 'Online' });
+        setFormData({ accommodationType: '', ticketType: 'Online' });
         setShowReserveTicketButton(true);
+        setShowAccomodationChoices(false);
+        setShowReserveAccommodationButton(false);
       }
       if (formData.ticketType === 'Online') {
         setFormData({ ...formData, ticketType: '' });
         setShowReserveTicketButton(false);
+        setShowAccomodationChoices(false);
       }
     }
   }
+
   function handleAccommodationType(e) {
     const buttonContent = e.target.innerHTML;
     if (buttonContent.includes('Sem')) {
@@ -71,13 +82,24 @@ export default function Payment() {
     setShowAccomodationChoices(true);
     setShowReserveTicketButton(false);
   }
+
+  if(!enrollment) {
+    return(
+      <>
+        <PageTitle>Ingresso e pagamento</PageTitle>
+        <UnauthorizedMessageContainer>
+          <UnauthorizedMessage> Você precisa completar sua inscrição <br />antes de prosseguir pra escolha de ingresso</UnauthorizedMessage>
+        </UnauthorizedMessageContainer>
+      </>
+    );
+  };
+
   return (
     <>
       <PageTitle>Ingresso e pagamento</PageTitle>
       <Box sx={{ marginTop: '37px' }}>
         <SubtitleInfo>Primeiro, escolha sua modalidade de ingresso</SubtitleInfo>
         <Button
-          disabled={showAccomodationChoices}
           selected={formData.ticketType === 'Presencial'}
           onClick={handleTicketType}
         >
@@ -86,7 +108,6 @@ export default function Payment() {
           R$ 250
         </Button>
         <Button
-          disabled={showAccomodationChoices}
           selected={formData.ticketType === 'Online'}
           onClick={handleTicketType}
         >
