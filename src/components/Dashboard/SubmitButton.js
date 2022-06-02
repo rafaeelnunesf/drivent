@@ -11,7 +11,7 @@ const SubmitButton = styled.button`
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
   border-radius: 4px;
 
-  font-family: 'Roboto';
+  font-family: 'Arial';
   font-style: normal;
   font-weight: 400;
   font-size: 14px;

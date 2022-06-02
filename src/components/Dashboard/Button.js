@@ -9,7 +9,7 @@ const Button = styled.button`
   background-color: ${(props) => (props.selected === false ? 'white' : '#FFEED2')};
   cursor: pointer;
 
-  font-family: 'Roboto';
+  font-family: 'Arial';
   font-weight: 400;
   font-size: 14px;
   line-height: 16px;
