@@ -33,7 +33,7 @@ export default function Payment() {
 
   return (
     <>
-      {selection? <Selection total={total} setTotal={setTotal} formData={formData} setFormData={setFormData} handleSubmitButton={handleSubmitButton}/> : <Confirmation />}
+      {selection? <Selection total={total} setTotal={setTotal} formData={formData} setFormData={setFormData} handleSubmitButton={handleSubmitButton}/> : <Confirmation total={total} formData={formData}/>}
     </>
   );
 }
