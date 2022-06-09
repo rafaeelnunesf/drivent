@@ -1,7 +1,7 @@
 import React from 'react';
 import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
-
+import styled from 'styled-components';
 export default class PaymentForm extends React.Component {
   state = {
     cvc: '',
@@ -32,7 +32,7 @@ export default class PaymentForm extends React.Component {
           number={this.state.number}
         />
         <form>
-          <input
+          <Input
             type="tel"
             name="number"
             placeholder="Card Number"
@@ -65,3 +65,9 @@ export default class PaymentForm extends React.Component {
     );
   }
 }
+
+//********** Styled Components
+const Input = styled.input`
+  width: 38px;
+  border-radius: 30px;
+`;
