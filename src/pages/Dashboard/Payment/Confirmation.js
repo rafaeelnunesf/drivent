@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import PageTitle from '../../../components/Dashboard/PageTitle';
 import Button from '../../../components/Dashboard/Button';
 import SubtitleInfo from '../../../components/Dashboard/SubtitleInfo';
@@ -27,10 +27,6 @@ export default function Confirmation({ total, formData }) {
     promise.catch((error) => alert(error));
     console.log(submit);
   }
-
-  useEffect(() => {
-    console.log(submit);
-  }, [submit]);
 
   return (
     <>
