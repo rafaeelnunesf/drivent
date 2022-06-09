@@ -1,5 +1,5 @@
 import { Box } from '@material-ui/core';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '../../../components/Dashboard/Button';
 import SubmitButton from '../../../components/Dashboard/SubmitButton';
 import PageTitle from '../../../components/Dashboard/PageTitle';
@@ -42,6 +42,10 @@ export default function Selection({ formData, setFormData, total, setTotal, hand
     }
   }
 
+  useEffect(() => {
+    setTotal(ticketValue);
+  }, [ticketValue]);
+
   function handleAccommodationType(e) {
     const buttonContent = e.target.innerHTML;
     if (buttonContent.includes('Sem')) {
@@ -73,18 +77,12 @@ export default function Selection({ formData, setFormData, total, setTotal, hand
       <PageTitle>Ingresso e pagamento</PageTitle>
       <Box sx={{ marginTop: '37px' }}>
         <SubtitleInfo>Primeiro, escolha sua modalidade de ingresso</SubtitleInfo>
-        <Button
-          selected={formData.ticketType === 'Presencial'}
-          onClick={handleTicketType}
-        >
+        <Button selected={formData.ticketType === 'Presencial'} onClick={handleTicketType}>
           Presencial
           <br />
           R$ 250
         </Button>
-        <Button
-          selected={formData.ticketType === 'Online'}
-          onClick={handleTicketType}
-        >
+        <Button selected={formData.ticketType === 'Online'} onClick={handleTicketType}>
           Online
           <br />
           R$ 100
