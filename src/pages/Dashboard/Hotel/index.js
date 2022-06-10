@@ -5,10 +5,14 @@ import PageTitle from '../../../components/Dashboard/PageTitle';
 import SubtitleInfo from '../../../components/Dashboard/SubtitleInfo';
 import { getHotels } from '../../../services/hotelApi';
 import useToken from '../../../hooks/useToken';
+import UnauthorizedMessage from '../../../components/Dashboard/UnauthorizedMessage';
+import UnauthorizedMessageContainer from '../../../components/Dashboard/UnauthorizedMessageContainer';
+import usePayment from '../../../hooks/api/usePayment';
 
 export default function Hotel() {
   const [hotels, setHotels] = useState([]);
   const token = useToken();
+  const { payment } = usePayment();
 
   async function getHotelsData() {
     const data = await getHotels(token);
@@ -20,6 +24,36 @@ export default function Hotel() {
   }, []);
 
   if (!hotels) return <h1>Loading...</h1>;
+
+  if (!payment) {
+    return (
+      <>
+        <PageTitle>Escolha de hotel e quarto</PageTitle>
+        <UnauthorizedMessageContainer>
+          <UnauthorizedMessage>
+            {' '}
+            Você precisa ter confirmado pagamento antes
+            <br /> de fazer a escolha de hospedagem
+          </UnauthorizedMessage>
+        </UnauthorizedMessageContainer>
+      </>
+    );
+  }
+
+  if (payment.accomodation === false) {
+    return (
+      <>
+        <PageTitle>Escolha de hotel e quarto</PageTitle>
+        <UnauthorizedMessageContainer>
+          <UnauthorizedMessage>
+            {' '}
+            Sua modalidade de ingresso não inclui hospedagem
+            <br /> Prossiga para a escolha de atividades
+          </UnauthorizedMessage>
+        </UnauthorizedMessageContainer>
+      </>
+    );
+  }
 
   return (
     <>
