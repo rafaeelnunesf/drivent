@@ -1,9 +1,4 @@
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate
-} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
 import Countdown from './pages/Countdown';
@@ -15,6 +10,7 @@ import Payment from './pages/Dashboard/Payment';
 import Hotel from './pages/Dashboard/Hotel';
 import Activities from './pages/Dashboard/Activities';
 import Certificate from './pages/Dashboard/Certificate';
+import Callback from './pages/Callback';
 
 import { EventInfoProvider } from './contexts/EventInfoContext';
 import { UserProvider } from './contexts/UserContext';
@@ -32,7 +28,7 @@ export default function App() {
               <Route path="/" element={<Countdown />} />
               <Route path="/enroll" element={<Enroll />} />
               <Route path="/sign-in" element={<SignIn />} />
-
+              <Route path="/callback" element={<Callback />} />
               <Route
                 path="/dashboard"
                 element={
@@ -63,7 +59,5 @@ function ProtectedRouteGuard({ children }) {
     return <Navigate to="/sign-in" />;
   }
 
-  return <>
-    {children}
-  </>;
+  return <>{children}</>;
 }
