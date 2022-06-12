@@ -30,7 +30,6 @@ export default function SignIn() {
 
     try {
       const userData = await signIn(email, password);
-      console.log(userData);
       setUserData(userData);
       toast('Login realizado com sucesso!');
       navigate('/dashboard');
