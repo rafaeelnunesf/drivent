@@ -18,7 +18,7 @@ export default function RoomButton({ info }) {
     if (isClicked) {
       setIconColor('pink');
     } else {
-      setIconColor('#FFF');
+      setIconColor('#000');
     }
   }, [isClicked]);
 
