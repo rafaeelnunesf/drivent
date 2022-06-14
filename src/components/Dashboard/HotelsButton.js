@@ -6,6 +6,8 @@ const HotelButton = styled.button`
   height: 220px;
   background: #f1f1f1;
   border-radius: 10px;
+  border: ${(props) => (props.selected === false ? '1px solid #cecece' : 'none')};
+  background-color: ${(props) => (props.selected === false ? 'white' : '#FFEED2')};
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -13,7 +15,7 @@ const HotelButton = styled.button`
   padding: 14px;
 
   img {
-    width: 178px;                                                                                                                                               px;
+    width: 178px;
     height: 109px;
     border-radius: 5px;
   }

@@ -8,11 +8,13 @@ import useToken from '../../../hooks/useToken';
 import UnauthorizedMessage from '../../../components/Dashboard/UnauthorizedMessage';
 import UnauthorizedMessageContainer from '../../../components/Dashboard/UnauthorizedMessageContainer';
 import usePayment from '../../../hooks/api/usePayment';
+import RoomButton from '../../../components/Dashboard/RoomButton';
 
 export default function Hotel() {
   const [hotels, setHotels] = useState([]);
   const token = useToken();
   const { payment } = usePayment();
+  const [hotelName, setHotelName] = useState('');
 
   async function getHotelsData() {
     const data = await getHotels(token);
@@ -22,6 +24,10 @@ export default function Hotel() {
   useEffect(() => {
     getHotelsData();
   }, []);
+
+  function handleHotelSelection(name) {
+    setHotelName(name);
+  }
 
   if (!hotels) return <h1>Loading...</h1>;
 
@@ -63,21 +69,34 @@ export default function Hotel() {
         <Box sx={{ display: 'flex', gap: '20px' }}>
           {hotels.map((hotel) => {
             return (
-              <HotelButton key={hotel.hotelId}>
-                <img src={hotel.hotelImage} alt={hotel.name}></img>
-                <HotelName>{hotel.hotelName}</HotelName>
-                <Box>
-                  <InfoType>Tipos de acomodação:</InfoType>
-                  <Info>{hotel.bedrooms[0].type}</Info>
-                </Box>
-                <Box>
-                  <InfoType>Vagas disponíveis:</InfoType>
-                  <Info>{hotel.vacancy._all - hotel.vacancy.userId}</Info>
-                </Box>
-              </HotelButton>
+              <>
+                <HotelButton
+                  key={hotel.hotelId}
+                  onClick={() => handleHotelSelection(hotel.hotelName)}
+                  selected={hotel.hotelName === hotelName}
+                >
+                  <img src={hotel.hotelImage} alt={hotel.hotelName}></img>
+                  <HotelName>{hotel.hotelName}</HotelName>
+                  <Box>
+                    <InfoType>Tipos de acomodação:</InfoType>
+                    <Info>{hotel.bedrooms[0].type}</Info>
+                  </Box>
+                  <Box>
+                    <InfoType>Vagas disponíveis:</InfoType>
+                    <Info>{hotel.vacancy._all - hotel.vacancy.userId}</Info>
+                  </Box>
+                </HotelButton>
+              </>
             );
           })}
         </Box>
+        {hotelName && <SubtitleInfo>Ótima pedida! Agora escolha seu quarto:</SubtitleInfo>}
+        {hotelName &&
+          hotels
+            .filter((hotel) => hotel.hotelName === hotelName)[0]
+            .bedrooms.map((bedroom) => {
+              return <RoomButton info={bedroom} />;
+            })}
       </Box>
     </>
   );
