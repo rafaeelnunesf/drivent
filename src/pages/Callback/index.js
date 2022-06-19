@@ -13,13 +13,12 @@ export default function Callback() {
   async function createGithubUser() {
     try {
       const userData = await githubLogin(code);
-      console.log(userData);
       setUserData(userData);
       toast('Login realizado com sucesso!');
       navigate('/dashboard');
     } catch (e) {
       toast('Não foi possível fazer o login!');
-    }
+    } 
   }
 
   useEffect(() => {

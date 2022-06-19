@@ -8,10 +8,13 @@ import useToken from '../../../hooks/useToken';
 import UnauthorizedMessage from '../../../components/Dashboard/UnauthorizedMessage';
 import UnauthorizedMessageContainer from '../../../components/Dashboard/UnauthorizedMessageContainer';
 import usePayment from '../../../hooks/api/usePayment';
+import SubmitButton from '../../../components/Dashboard/SubmitButton';
+import SelectedHotel from '../../../components/Dashboard/SelectedHotel';
 import RoomButton from '../../../components/Dashboard/RoomButton';
 
 export default function Hotel() {
   const [hotels, setHotels] = useState([]);
+  const [selectedHotel, setSelectedHotel] = useState([]);
   const token = useToken();
   const { payment } = usePayment();
   const [hotelName, setHotelName] = useState('');
@@ -57,6 +60,33 @@ export default function Hotel() {
             <br /> Prossiga para a escolha de atividades
           </UnauthorizedMessage>
         </UnauthorizedMessageContainer>
+      </>
+    );
+  }
+
+  if (selectedHotel.length !== 0) {
+    return (
+      <>
+        <PageTitle>Escolha de quarto e hotel</PageTitle>
+        <Box sx={{ marginTop: '37px' }}>
+          <SubtitleInfo>Você já escolheu seu quarto:</SubtitleInfo>
+          <SelectedHotel>
+            <img
+              src="https://www.agoda.com/wp-content/uploads/2019/02/Best-luxury-hotels-in-Seoul-South-Korea-Lotte-Hotel-World-4.jpg"
+              alt=""
+            ></img>
+            <HotelName>Driven World</HotelName>
+            <Box>
+              <InfoType>Quarto reservado</InfoType>
+              <Info>101 (Double)</Info>
+            </Box>
+            <Box>
+              <InfoType>Pessoas no seu quarto</InfoType>
+              <Info>Você e mais 1</Info>
+            </Box>
+          </SelectedHotel>
+        </Box>
+        <SubmitButton onClick={() => setSelectedHotel([])}>TROCAR DE QUARTO</SubmitButton>
       </>
     );
   }
