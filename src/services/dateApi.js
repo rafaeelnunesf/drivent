@@ -6,5 +6,5 @@ export async function getDates(token) {
       Authorization: `Bearer ${token}`,
     },
   });
-  return response.data;
+  return response;
 }

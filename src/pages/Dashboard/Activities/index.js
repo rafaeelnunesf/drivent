@@ -59,13 +59,17 @@ export default function Activities() {
     );
   }
 
-  if (dates.length === 0) return <h1>Loading...</h1>;
+  if (!dates) return <h1>Loading...</h1>;
   return (
     <>
       <PageTitle>Escolha de atividades</PageTitle>
       <ActivityContainer>
         {dates.map((date) => (
-          <DateButton key={date.id} onClick={() => handleDateSelection(date.name)} selected={date.name === dateName}>
+          <DateButton
+            key={date.id}
+            onClick={() => handleDateSelection(date.name, date.id)}
+            selected={date.name === dateName}
+          >
             {date.name}
           </DateButton>
         ))}
