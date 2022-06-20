@@ -1,16 +1,23 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import RoomButtonCustomer from './RoomButtonCustomer';
 
 export default function RoomButton({ info }) {
+  const [idSelected, setIdSelected] = useState();
+
   if (info.type === 'SINGLE') {
     return (
       <>
-        <Button>
+        <Button key={info.id}>
           <RoomNumber>
-            <h1>101</h1>
+            <h1>{info.number}</h1>
           </RoomNumber>
           <UserIconBox>
-            <RoomButtonCustomer />
+            <RoomButtonCustomer>
+              {idSelected}
+              {setIdSelected}
+              {info.id}
+            </RoomButtonCustomer>
           </UserIconBox>
         </Button>
       </>
@@ -19,9 +26,9 @@ export default function RoomButton({ info }) {
   if (info.type === 'DOUBLE') {
     return (
       <>
-        <Button>
+        <Button key={info.id}>
           <RoomNumber>
-            <h1>101</h1>
+            <h1>{info.number}</h1>
           </RoomNumber>
           <UserIconBox>
             <RoomButtonCustomer />
@@ -34,9 +41,9 @@ export default function RoomButton({ info }) {
   if (info.type === 'TRIPLE') {
     return (
       <>
-        <Button>
+        <Button key={info.id}>
           <RoomNumber>
-            <h1>101</h1>
+            <h1>{info.number}</h1>
           </RoomNumber>
           <UserIconBox>
             <RoomButtonCustomer />

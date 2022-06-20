@@ -119,14 +119,21 @@ export default function Hotel() {
             );
           })}
         </Box>
-        {hotelName && <SubtitleInfo>Ótima pedida! Agora escolha seu quarto:</SubtitleInfo>}
-        {hotelName &&
-          hotels
-            .filter((hotel) => hotel.hotelName === hotelName)[0]
-            .bedrooms.map((bedroom) => {
-              return <RoomButton info={bedroom} />;
-            })}
+        {hotelName && (
+          <SubtitleInfo style={{ marginTop: '52px' }}>Ótima pedida! Agora escolha seu quarto:</SubtitleInfo>
+        )}
+        <Box sx={{ display: 'flex', gridColumnGap: '17px', gridRowGap: '8px', flexWrap: 'wrap' }}>
+          {hotelName &&
+            hotels
+              .filter((hotel) => hotel.hotelName === hotelName)[0]
+              .bedrooms.map((bedroom) => {
+                return <RoomButton key={bedroom.id} info={bedroom} />;
+              })}
+        </Box>
       </Box>
+      <SubmitButton style={{ marginTop: '46px' }} onClick={() => setSelectedHotel([])}>
+        RESERVAR QUARTO
+      </SubmitButton>
     </>
   );
 }
