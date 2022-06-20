@@ -3,14 +3,16 @@ import { BsPersonFill } from 'react-icons/bs';
 import { IconContext } from 'react-icons';
 import { useEffect, useState } from 'react';
 
-export default function RoomButtonCustomer() {
+export default function RoomButtonCustomer({ children }) {
   const props = 'livre';
+  const { idSelected, setIdSelected, id } = children;
 
   const [isClicked, setIsClicked] = useState(false);
   const [iconColor, setIconColor] = useState('');
 
   const Toggle = () => {
     isClicked ? setIsClicked(false) : setIsClicked(true);
+    setIdSelected();
   };
 
   useEffect(() => {
@@ -26,7 +28,7 @@ export default function RoomButtonCustomer() {
       {props === 'livre' ? (
         <>
           <IconContext.Provider value={{ color: `${iconColor}`, size: '26px' }}>
-            <BsPerson onClick={Toggle} />
+            <BsPersonFill onClick={Toggle} />
           </IconContext.Provider>
         </>
       ) : (
