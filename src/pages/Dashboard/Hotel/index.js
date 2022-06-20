@@ -12,6 +12,7 @@ import SubmitButton from '../../../components/Dashboard/SubmitButton';
 import SelectedHotel from '../../../components/Dashboard/SelectedHotel';
 import RoomButton from '../../../components/Dashboard/RoomButton';
 
+
 export default function Hotel() {
   const [hotels, setHotels] = useState([]);
   const [selectedHotel, setSelectedHotel] = useState([]);
@@ -20,7 +21,7 @@ export default function Hotel() {
   const [hotelName, setHotelName] = useState('');
 
   async function getHotelsData() {
-    const data = await getHotels(token);
+    const data = await getHotels(token);  
     setHotels(data);
   }
 
@@ -63,8 +64,8 @@ export default function Hotel() {
       </>
     );
   }
-
   if (selectedHotel.length !== 0) {
+
     return (
       <>
         <PageTitle>Escolha de quarto e hotel</PageTitle>
