@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 
 const DateButton = styled.button`
+  all: unset;
   width: 131px;
   height: 37px;
   left: 489px;
   top: 274px;
-  background-color: ${(props) => (props.selected === false ? '#E0E0E0' : '#FFEED2')};
+  background-color: ${(props) => (props.selected === false ? '#E0E0E0' : '#FFD37D')};
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
   border-radius: 4px;
   font-family: 'Roboto';

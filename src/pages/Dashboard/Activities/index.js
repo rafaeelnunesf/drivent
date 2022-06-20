@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ActivityContainer from '../../../components/Dashboard/Activities/ActivityContainer';
 import DateButton from '../../../components/Dashboard/Activities/DateButton';
 import PageTitle from '../../../components/Dashboard/PageTitle';
@@ -6,14 +6,29 @@ import UnauthorizedMessage from '../../../components/Dashboard/UnauthorizedMessa
 import UnauthorizedMessageContainer from '../../../components/Dashboard/UnauthorizedMessageContainer';
 import useDates from '../../../hooks/api/useDate';
 import usePayment from '../../../hooks/api/usePayment';
+import useToken from '../../../hooks/useToken';
+import { getActivities } from '../../../services/ActivitiesApi';
+import { getDates } from '../../../services/dateApi';
 
 export default function Activities() {
   const { payment } = usePayment();
-  const { dates } = useDates();
   const [dateName, setDateName] = useState('');
+  const [dates, setDates] = useState([]);
+  const token = useToken();
 
-  function handleDateSelection(name) {
+  useEffect(() => {
+    activitiesDates();
+  }, []);
+
+  async function activitiesDates() {
+    const { data: dates } = await getDates(token);
+    setDates(dates);
+  }
+
+  async function handleDateSelection(name, dateId) {
     setDateName(name);
+    /* const { data: activities } = await getActivities(token, dateId);
+    console.log(activities); */
   }
 
   if (!payment) {
@@ -44,16 +59,13 @@ export default function Activities() {
     );
   }
 
+  if (dates.length === 0) return <h1>Loading...</h1>;
   return (
     <>
       <PageTitle>Escolha de atividades</PageTitle>
       <ActivityContainer>
         {dates.map((date) => (
-          <DateButton 
-            key={date.id} 
-            onClick={() => handleDateSelection(date.name)} 
-            selected={date.name === dateName}
-          >
+          <DateButton key={date.id} onClick={() => handleDateSelection(date.name)} selected={date.name === dateName}>
             {date.name}
           </DateButton>
         ))}
