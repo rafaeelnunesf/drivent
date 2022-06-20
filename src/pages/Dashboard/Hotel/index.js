@@ -64,8 +64,8 @@ export default function Hotel() {
       </>
     );
   }
+  if (selectedHotel.length !== 0) {
 
-  if(selectedHotel.length !== 0) {
     return (
       <>
         <PageTitle>Escolha de quarto e hotel</PageTitle>
