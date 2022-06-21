@@ -9,7 +9,7 @@ const DateButton = styled.button`
   background-color: ${(props) => (props.selected === false ? '#E0E0E0' : '#FFD37D')};
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
   border-radius: 4px;
-  font-family: 'Roboto';
+  font-family: 'Arial';
   font-weight: 400;
   font-size: 14px;
   line-height: 16px;

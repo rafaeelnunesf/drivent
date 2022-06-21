@@ -1,4 +1,6 @@
-import { Box, Grid } from '@material-ui/core';
+import { Box } from '@material-ui/core';
+import { BiLogIn } from 'react-icons/bi';
+import { VscError } from 'react-icons/vsc';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import ActivityContainer from '../../../components/Dashboard/Activities/ActivityContainer';
@@ -7,7 +9,6 @@ import PageTitle from '../../../components/Dashboard/PageTitle';
 import SubtitleInfo from '../../../components/Dashboard/SubtitleInfo';
 import UnauthorizedMessage from '../../../components/Dashboard/UnauthorizedMessage';
 import UnauthorizedMessageContainer from '../../../components/Dashboard/UnauthorizedMessageContainer';
-import useDates from '../../../hooks/api/useDate';
 import usePayment from '../../../hooks/api/usePayment';
 import useToken from '../../../hooks/useToken';
 import { getActivities } from '../../../services/ActivitiesApi';
@@ -36,7 +37,6 @@ export default function Activities() {
 
     const { data: activities } = await getActivities(token, dateId);
     setActivities(activities);
-    console.log(activities);
   }
 
   if (!payment) {
@@ -95,47 +95,147 @@ export default function Activities() {
 
       {dateName !== '' && (
         <>
-          <Grid container sx={{ heigth: '390px' }}>
-            <Grid
-              item
-              sx={{
-                border: '1px solid #D7D7D7',
-                heigth: '100%',
-                width: '290px',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '10px',
-              }}
-            >
+          <LocalContainer>
+            <Box sx={styles.localGrid}>
               <SubtitleInfo>Auditório Principal</SubtitleInfo>
-              {main.map((activitie) => (
-                <ActivityButton>
-                  <h1>{activitie.name}</h1>
-                  <p>
-                    {activitie.startTime} - {activitie.endTime}
-                  </p>
-                </ActivityButton>
-              ))}
-            </Grid>
-            <Grid item>
+              <LocalGrid>
+                {main.map((activity) => (
+                  <ActivityButton>
+                    <Box>
+                      <h1>{activity.name}</h1>
+                      <p>
+                        {activity.startTime} - {activity.endTime}
+                      </p>
+                    </Box>
+                    {activity.seats !== 0 ? (
+                      <Box sx={styles.localGrid}>
+                        <BiLogIn fontSize="25px" color="#078632" />
+                        <p>{activity.seats - activity._count.ActivitySeats} vagas</p>
+                      </Box>
+                    ) : (
+                      <Box sx={styles.localGrid}>
+                        <VscError fontSize="25px" color="#CC6666" />
+                        <p>Esgotado</p>
+                      </Box>
+                    )}
+                  </ActivityButton>
+                ))}
+              </LocalGrid>
+            </Box>
+            <Box sx={styles.localGrid}>
               <SubtitleInfo>Auditório Lateral</SubtitleInfo>
-            </Grid>
-            <Grid item>
+              <LocalGrid>
+                {lateral.map((activity) => (
+                  <ActivityButton>
+                    <Box>
+                      <h1>{activity.name}</h1>
+                      <p>
+                        {activity.startTime} - {activity.endTime}
+                      </p>
+                    </Box>
+                    {activity.seats !== 0 ? (
+                      <Box sx={styles.localGrid}>
+                        <BiLogIn fontSize="25px" color="#078632" />
+                        <p>{activity.seats - activity._count.ActivitySeats} vagas</p>
+                      </Box>
+                    ) : (
+                      <Box sx={styles.localGrid}>
+                        <VscError fontSize="25px" color="#CC6666" />
+                        <p>Esgotado</p>
+                      </Box>
+                    )}
+                  </ActivityButton>
+                ))}
+              </LocalGrid>
+            </Box>
+            <Box sx={styles.localGrid}>
               <SubtitleInfo>Workshop</SubtitleInfo>
-            </Grid>
-          </Grid>
+              <LocalGrid>
+                {workshop.map((activity) => (
+                  <ActivityButton>
+                    <Box>
+                      <h1>{activity.name}</h1>
+                      <p>
+                        {activity.startTime} - {activity.endTime}
+                      </p>
+                    </Box>
+                    {activity.seats !== 0 ? (
+                      <Box sx={styles.localGrid}>
+                        <BiLogIn fontSize="25px" color="#078632" />
+                        <p>{activity.seats - activity._count.ActivitySeats} vagas</p>
+                      </Box>
+                    ) : (
+                      <Box sx={styles.localGrid}>
+                        <VscError fontSize="25px" color="#CC6666" />
+                        <p>Esgotado</p>
+                      </Box>
+                    )}
+                  </ActivityButton>
+                ))}
+              </LocalGrid>
+            </Box>
+          </LocalContainer>
         </>
       )}
     </>
   );
 }
 
+const styles = {
+  localGrid: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+};
+
 const ActivityButton = styled.button`
   all: unset;
+  box-sizing: border-box;
 
-  width: 265px;
+  width: 260px;
   height: 79px;
+  padding: 0 10px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
   background: #f1f1f1;
   border-radius: 5px;
+  cursor: pointer;
+
+  h1 {
+    font-family: 'Arial';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 14px;
+
+    color: #343434;
+  }
+
+  p {
+    font-family: 'Arial';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+
+    color: #343434;
+  }
+`;
+
+const LocalContainer = styled.div`
+  height: 390px;
+  display: flex;
+`;
+
+const LocalGrid = styled.div`
+  width: 288px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid #d7d7d7;
 `;
